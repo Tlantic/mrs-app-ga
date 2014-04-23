@@ -1,0 +1,18 @@
+{
+	"module": "MRS.GoogleAnalytics",
+	"trackRoutes": true,
+	"accountId": "",
+	"trackPrefix": "",
+	"pageEvents": ["$routeChangeSuccess", "$stateChangeSuccess"],
+	"cookieConfig": {
+		"storage": "none",
+		"clientId": "device.uuid"
+	},
+	"ecommerce": {
+		"active": false,
+		"currency": "USD"
+		},
+	"enhancedLinkAttribution": false,
+	"ignoreFirstPageLoad": true,
+	"scriptPath": ""
+}
