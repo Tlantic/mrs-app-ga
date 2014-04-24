@@ -1,4 +1,4 @@
-/*! MRS.GoogleAnalytics - v0.0.1 - 2014-04-23 */
+/*! MRS.GoogleAnalytics - v0.0.1 - 2014-04-24 */
 /**
 	The MRS GoogleAnalytics module is a proxy to Google Analytics service, provided to analyse and track page changes and events on your web app.
 
@@ -10,24 +10,22 @@
 **/
 
 var g = angular.module('MRS.GoogleAnalytics', []);
+
 g.constant('$mrsgoogleanalyticsConfig', {
 	"module": "MRS.GoogleAnalytics",
 	"trackRoutes": true,
 	"accountId": "UA-50313432-2",
-	"trackPrefix": "DEMO_PREFIX",
+	"trackPrefix": "DemoApp",
 	"pageEvents": ["$routeChangeSuccess", "$stateChangeSuccess"],
-	"cookieConfig": {
-		"storage": "none",
-		"clientId": "127.0.0.1"
-	},
 	"ecommerce": {
 		"active": false,
 		"currency": "USD"
 		},
 	"enhancedLinkAttribution": false,
 	"ignoreFirstPageLoad": false,
-	"scriptPath": "lib/analytics.js"
+	"scriptPath": "lib/mrsga/dependencies/analytics.js"
 });
+
 /**
     Provider to provide data fetching for category entity/concept.
     
@@ -35,10 +33,12 @@ g.constant('$mrsgoogleanalyticsConfig', {
     @namespace MRS.GoogleAnalytics
     @since 0.4.1
 **/
-angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location',
+angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location',
     function($config, $window, $location) {
-        console.log($config);
-        var self = this;
+        'use strict';
+
+        var self = this,
+            installed = false;
 
         var debug = $config.debug,
             _TAG = 'MRS.GoogleAnalytics: ';
@@ -48,10 +48,7 @@ angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalytic
             accountId = $config.accountId,
             trackPrefix = $config.trackPrefix,
             pageEvents = $config.pageEvents,
-            cookieConfig = {
-                "storage": "none",
-                "clientId": "device.uuid"
-            },
+            cookieConfig,
             ecommerce = $config.ecommerce.active,
             ecommerce_currency = $config.ecommerce.currency,
             enhancedLinkAttribution = $config.enhancedLinkAttribution,
@@ -245,7 +242,11 @@ angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalytic
 
         var _init = function _init() {
             // Install script on page
-            _installScript();
+            if (!installed) {
+                _installScript();
+                installed = true;
+            }
+
             // Activate route handling for every pages
             if (trackRoutes) {
                 var trackRoutesHandler = function trackRoutesHandler() {
@@ -256,6 +257,10 @@ angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalytic
             }
         };
 
-        _init();
+        
+        this.init = function (initParams) {
+            cookieConfig = initParams;
+            _init();
+        };
     }
 ]);
