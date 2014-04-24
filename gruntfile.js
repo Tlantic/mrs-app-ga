@@ -30,6 +30,10 @@ module.exports = function(grunt) {
             min:{
                 src:  'dist/minified.js',
                 dest: 'dist/'+ project.minifiedDeployFile
+            },
+            assets:{
+                src: 'src/google/analytics.js',
+                dest: 'dist/dependencies/analytics.js'
             }
         },
         
@@ -67,7 +71,7 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + "<%= grunt.template.today('yyyy-mm-dd') %> */\n"
             },
             dist: {
-                src: ['src/google/analytics.js', 'src/*.js'],
+                src: ['src/*.js'],
                 dest: 'dist/' + project.moduleDeployFile,
             },
         },
@@ -104,7 +108,7 @@ module.exports = function(grunt) {
     });
     
     // run ALL targets
-    grunt.registerTask('all', ['clean','jshint','test','yuidoc','concat','uglify','copy:min','clean:min']); //distribute
+    grunt.registerTask('all', ['clean','jshint','test','yuidoc','concat','uglify','copy','clean:min']); //distribute
     
     // Default task(s).
     grunt.registerTask('default', ['all']);
