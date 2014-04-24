@@ -7,9 +7,12 @@
     @namespace MRS.GoogleAnalytics
     @since 0.4.1
 **/
-angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location',
+angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location',
     function($config, $window, $location) {
-        var self = this;
+        'use strict';
+
+        var self = this,
+            installed = false;
 
         var debug = $config.debug,
             _TAG = 'MRS.GoogleAnalytics: ';
@@ -19,10 +22,7 @@ angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalytic
             accountId = $config.accountId,
             trackPrefix = $config.trackPrefix,
             pageEvents = $config.pageEvents,
-            cookieConfig = {
-                "storage": "none",
-                "clientId": "device.uuid"
-            },
+            cookieConfig,
             ecommerce = $config.ecommerce.active,
             ecommerce_currency = $config.ecommerce.currency,
             enhancedLinkAttribution = $config.enhancedLinkAttribution,
@@ -216,7 +216,11 @@ angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalytic
 
         var _init = function _init() {
             // Install script on page
-            _installScript();
+            if (!installed) {
+                _installScript();
+                installed = true;
+            }
+
             // Activate route handling for every pages
             if (trackRoutes) {
                 var trackRoutesHandler = function trackRoutesHandler() {
@@ -227,6 +231,10 @@ angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalytic
             }
         };
 
-        _init();
+        
+        this.init = function (initParams) {
+            cookieConfig = initParams;
+            _init();
+        };
     }
 ]);
