@@ -18,14 +18,14 @@ g.constant('$mrsgoogleanalyticsConfig', {
 	"pageEvents": ["$routeChangeSuccess", "$stateChangeSuccess"],
 	"cookieConfig": {
 		"storage": "none",
-		"clientId": "device.uuid"
+		"clientId": "127.0.0.1"
 	},
 	"ecommerce": {
 		"active": false,
 		"currency": "USD"
 		},
 	"enhancedLinkAttribution": false,
-	"ignoreFirstPageLoad": true,
+	"ignoreFirstPageLoad": false,
 	"scriptPath": "lib/analytics.js"
 });
 /**
