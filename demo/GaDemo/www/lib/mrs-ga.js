@@ -9,7 +9,25 @@
 	@beta
 **/
 
-angular.module('MRS.GoogleAnalytics', []);
+var g = angular.module('MRS.GoogleAnalytics', []);
+g.constant('$mrsgoogleanalyticsConfig', {
+	"module": "MRS.GoogleAnalytics",
+	"trackRoutes": true,
+	"accountId": "UA-50313432-2",
+	"trackPrefix": "DEMO_PREFIX",
+	"pageEvents": ["$routeChangeSuccess", "$stateChangeSuccess"],
+	"cookieConfig": {
+		"storage": "none",
+		"clientId": "device.uuid"
+	},
+	"ecommerce": {
+		"active": false,
+		"currency": "USD"
+		},
+	"enhancedLinkAttribution": false,
+	"ignoreFirstPageLoad": true,
+	"scriptPath": "lib/analytics.js"
+});
 /**
     Provider to provide data fetching for category entity/concept.
     
@@ -19,6 +37,7 @@ angular.module('MRS.GoogleAnalytics', []);
 **/
 angular.module("MRS.GoogleAnalytics").service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location',
     function($config, $window, $location) {
+        console.log($config);
         var self = this;
 
         var debug = $config.debug,
