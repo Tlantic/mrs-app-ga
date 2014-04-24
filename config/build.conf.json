@@ -1,0 +1,5 @@
+{
+    "moduleDeployFile"      : "mrs-ga.js",
+    "minifiedDeployFile"    : "mrs-ga.min.js",
+    "obfuscate"             : true
+}

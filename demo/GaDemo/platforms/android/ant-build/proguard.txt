@@ -1,0 +1,3 @@
+# view AndroidManifest.xml #generated:6
+-keep class com.tlantic.demo.ga.GaDemo { <init>(...); }
+
