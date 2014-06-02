@@ -31,9 +31,29 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
             ignoreFirstPageLoad = $config.ignoreFirstPageLoad,
             ganalyticsScript = $config.scriptPath;
 
+        var curPage;
+
         // Logs
         this._logs = [];
 
+
+        /**
+            Log info in console.
+            @method log
+        */
+        this.log = function log() {
+            if (!debug)
+                return;
+            console.info(_TAG + 'Log:', arguments);
+        };
+
+
+        /**
+            Get current path.
+            Remove regexp.
+            @method getUrl
+            @return {String}
+        */
         this.getUrl = function getUrl() {
             var url = $location.path();
             if (removeRegExp)
@@ -41,10 +61,59 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
             return url;
         };
 
-        this.log = function log() {
-            if (!debug)
+        /** -------------------------------------------------------
+            Common
+        */
+
+        /**
+            @method set
+            @param {String} name Name or ID
+            @param {String} data
+        **/
+        this.set = function set(name, data) {
+            if (!$window.ga)
                 return;
-            console.info(_TAG + 'Log:', arguments);
+
+            $window.ga('set', name, data);
+        };
+
+        /**
+            Send custom events
+            @method send
+            @param {Object} obj
+        */
+        this.send = function send(obj) {
+            if (!$window.ga)
+                return;
+
+            $window.ga('send', obj);
+
+            this.log('send', obj);
+        };
+
+        /** -------------------------------------------------------
+            Pages
+        */
+
+        /**
+            Set a new page for tracking.
+            This is usefull when you need to track events.
+            @method setPage
+            @param {String} name Page name or url
+            @param {String} data
+        */
+        this.setPage = function setPage(page) {
+            curPage = page !== undefined ? page : self.getUrl();
+
+            this.set("page", trackPrefix + curPage);
+        };
+
+        /**
+            @method getPage
+            @return {String}
+        */
+        this.getPage = function getPage() {
+            return curPage;
         };
 
         /**
@@ -56,9 +125,18 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
         this.trackPage = function trackPage(url) {
             if (!$window.ga)
                 return;
-            $window.ga('send', 'pageview', trackPrefix + url);
+
+            if (url)
+                this.setPage(url);
+
+            $window.ga('send', 'pageview');
+
             this.log('pageview', arguments);
         };
+
+        /** -------------------------------------------------------
+            Events
+        */
 
         /**
             Send "event" event to GA.
@@ -67,13 +145,26 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
             @param {String} action
             @param {String} label
             @param {String} value
+            @param {Boolean} nonInteraction Set if this is an user-interaction. Default false.
         */
-        this.trackEvent = function trackEvent(category, action, label, value) {
+        this.trackEvent = function trackEvent(category, action, label, value, nonInteraction) {
             if (!$window.ga)
                 return;
-            $window.ga('send', 'event', category, action, label, value);
+
+            $window.ga('send', 'event', {
+              'eventCategory': category,   // Required.
+              'eventAction': action,      // Required.
+              'eventLabel': label,
+              'eventValue': value,
+              'nonInteraction': nonInteraction ? 1 : 0
+            });
+
             this.log('event', arguments);
         };
+
+        /** -------------------------------------------------------
+            Transactions
+        */
 
         /**
           Add transaction
@@ -159,21 +250,30 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
             this.log('ecommerce:clear', arguments);
         };
 
-        /**
-            Send custom events
-            https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings#implementation
-            https://developers.google.com/analytics/devguides/collection/analyticsjs/social-interactions#implementation
-            @method send
-            @param {Object} obj
-            @private
+        /** -------------------------------------------------------
+            Dimensions
         */
-        this.send = function send(obj) {
-            if (!$window.ga)
-                return;
-            $window.ga('send', obj);
-            this.log('send', obj);
+
+        /**
+            @method setDimension
+            @param {String} name Dimension name or id
+            @param {String} data
+        */
+        this.setDimension = this.set;
+
+        /**
+            @method removeDimensions
+            @param {Array} dimensions List of dimensions names/keys to remove
+        */
+        this.removeDimensions = function removeDimensions(dimensions) {
+            for(var i = 0; i < dimensions.length; i++)
+                this.set(dimensions[i], "");
         };
 
+
+        /** -------------------------------------------------------
+            Script
+        */
 
         var _installScript = function _installScript() {
             if (!accountId)
