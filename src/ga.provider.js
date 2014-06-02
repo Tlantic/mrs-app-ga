@@ -7,8 +7,8 @@
     @namespace MRS.GoogleAnalytics
     @since 0.4.1
 **/
-angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location',
-    function($config, $window, $location) {
+angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location', '$rootScope',
+    function($config, $window, $location, $rootScope) {
         'use strict';
 
         var self = this,
@@ -226,7 +226,7 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
                 var trackRoutesHandler = function trackRoutesHandler() {
                     self.trackPage(self.getUrl());
                 };
-                for (var i = 0; i < pageEvents.lenght; i++)
+                for (var i = 0; i < pageEvents.length; i++)
                     $rootScope.$on(pageEvents[i], trackRoutesHandler);
             }
         };
