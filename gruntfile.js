@@ -81,7 +81,8 @@ module.exports = function(grunt) {
             options: {
                 mangle: project.obfuscate,
                 sourceMap: project.obfuscate,
-                sourceMapName: 'dist/' + project.mapDeployFile
+                sourceMapName: 'dist/' + project.mapDeployFile,
+                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + "<%= grunt.template.today('yyyy-mm-dd HH:MM:ss Z') %> */"
             },
             dist: {
                 files: {
