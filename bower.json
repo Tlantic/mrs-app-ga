@@ -1,0 +1,27 @@
+{
+  "name": "mrs-app-ga",
+  "version": "0.4.2",
+  "homepage": "https://github.com/Tlantic/mrs-app-ga",
+  "authors": [
+    "Tlantic MRS Team"
+  ],
+  "description": "Tlantic MRS-App-GA",
+  "main": "./dist/mrs-app-ga.js",
+  "keywords": [
+    "tlantic",
+    "mrs",
+    "app",
+    "core"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src",
+    "docs",
+    "reports",
+    "test",
+    "tests"
+  ]
+}
