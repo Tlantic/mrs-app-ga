@@ -1,5 +1,5 @@
 {
-	"module": "MRS.GoogleAnalytics",
+	"module": "MRS.App.GoogleAnalytics",
 	"trackRoutes": true,
 	"accountId": "",
 	"trackPrefix": "",

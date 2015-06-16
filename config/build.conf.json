@@ -1,5 +1,6 @@
 {
-    "moduleDeployFile"      : "mrs-ga.js",
-    "minifiedDeployFile"    : "mrs-ga.min.js",
+    "moduleDeployFile"      : "mrs-app-ga.js",
+    "minifiedDeployFile"    : "mrs-app-ga.min.js",
+    "mapDeployFile"         : "mrs-app-ga.min.js.map",
     "obfuscate"             : true
 }

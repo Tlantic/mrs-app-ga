@@ -1,7 +1,7 @@
-tlanjs-ga
+MRS App Google Analytics
 =========
 
-TlanJS Google Analytics Module
+MRS App Google Analytics Module
 
 This module helps you to track your pages, events and user behaviours directly on Google Analytics.
 You can use it in default mode or custom mode.
@@ -11,16 +11,16 @@ How to use
 
 1. Download this package
 2. Include in your code in index.html
-
-		<script type="text/javascript" src="mrs-ga.min.js"></script>
-
+```JavaScript
+		<script type="text/javascript" src="mrs-app-ga.min.js"></script>
+```
 3. Include angular dependency
-
-		angular.module("MyApp", ["MRS.GoogleAnalytics"]);
-
+```JavaScript
+		angular.module("MyApp", ["MRS.App.GoogleAnalytics"]);
+```
 4. Customize your configuration file
-	
-		angular.module("MRS.GoogleAnalytics").constant("$mygoogleanalyticsConfig", {
+```JavaScript
+		angular.module("MRS.App.GoogleAnalytics").constant("$mrsappgoogleanalyticsConfig", {
 	    	"trackRoutes": true,
 			"accountId": "",
 			"trackPrefix": "",
@@ -33,10 +33,10 @@ How to use
 			"ignoreFirstPageLoad": true,
 			"scriptPath": ""
 		});
-
+```
 5. Init script with basic config
-
-		app.run(["GAnalytics",
+```JavaScript
+		app.run(["MRSAppGA",
         function myAppRun($ga) {
 
             $ga.init({
@@ -45,7 +45,7 @@ How to use
             });	
 
         }
-
+```
 Done!
 
 By default this plugin tracks routeChange (default AngularJS behaviour) and stateChange (router-ui behaviour) and uses page path for page id.
@@ -60,9 +60,9 @@ Custom handling
 =========
 
 You can handle your events for custom behaviour.
-
-		app.run(["GAnalytics", ...
-        function myAppRun($ga, ...) {
+```JavaScript
+		app.run(["MRSAppGA",
+        function myAppRun($ga) {
 			
 			// Init script and configuration
 			$ga.init({
@@ -96,3 +96,4 @@ You can handle your events for custom behaviour.
             });
 
         });
+```

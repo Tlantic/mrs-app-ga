@@ -3,11 +3,11 @@
 /**
     Provider to provide data fetching for category entity/concept.
     
-    @class GAnalytics
-    @namespace MRS.GoogleAnalytics
-    @since 0.4.1
+    @class MRSAppGA
+    @namespace MRS.App.GoogleAnalytics
+    @since 0.5.0
 **/
-angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalyticsConfig', '$window', '$location', '$rootScope',
+angular.module('MRS.App.GoogleAnalytics').service('MRSAppGA', ['$mrsappgoogleanalyticsConfig', '$window', '$location', '$rootScope',
     function($config, $window, $location, $rootScope) {
         'use strict';
 
@@ -15,7 +15,7 @@ angular.module('MRS.GoogleAnalytics').service('GAnalytics', ['$mrsgoogleanalytic
             installed = false;
 
         var debug = $config.debug,
-            _TAG = 'MRS.GoogleAnalytics: ';
+            _TAG = 'MRS.App.GoogleAnalytics: ';
 
         var created = false,
             trackRoutes = $config.trackRoutes,
