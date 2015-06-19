@@ -1,4 +1,4 @@
-/*! mrs-app-ga - v0.5.0 - 2015-06-16 12:22:28 GMT */
+/*! mrs-app-ga - v0.5.1 - 2015-06-19 14:40:43 GMT */
 /**
 	The MRS App GoogleAnalytics module is a proxy to Google Analytics service, provided to analyse and track page changes and events on your web app.
 
@@ -8,7 +8,28 @@
 	@module MRS.App.GoogleAnalytics
 **/
 
-angular.module('MRS.App.GoogleAnalytics', []);
+angular.module('MRS.App.GoogleAnalytics', [])
+
+.config(['$mrsappgoogleanalytics', function (config) {
+	'use strict';
+    
+    var defaultConfig = {
+        trackRoutes: true,
+		accountId: "",
+		trackPrefix: "",
+		pageEvents: ["$routeChangeSuccess", "$stateChangeSuccess"],
+		ecommerce: {
+			active: false,
+			currency: "USD"
+		},
+		enhancedLinkAttribution: false,
+		ignoreFirstPageLoad: true,
+		scriptPath: ""
+    };
+	
+	// merge config with default
+    angular.extend(config, defaultConfig, config);
+}]);
 /**
     Provider to provide data fetching for category entity/concept.
     
