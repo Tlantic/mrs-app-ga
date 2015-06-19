@@ -9,4 +9,25 @@
 	@module MRS.App.GoogleAnalytics
 **/
 
-angular.module('MRS.App.GoogleAnalytics', []);
+angular.module('MRS.App.GoogleAnalytics', [])
+
+.config(['$mrsappgoogleanalytics', function (config) {
+	'use strict';
+    
+    var defaultConfig = {
+        trackRoutes: true,
+		accountId: "",
+		trackPrefix: "",
+		pageEvents: ["$routeChangeSuccess", "$stateChangeSuccess"],
+		ecommerce: {
+			active: false,
+			currency: "USD"
+		},
+		enhancedLinkAttribution: false,
+		ignoreFirstPageLoad: true,
+		scriptPath: ""
+    };
+	
+	// merge config with default
+    angular.extend(config, defaultConfig, config);
+}]);
