@@ -11,7 +11,7 @@
 
 angular.module('MRS.App.GoogleAnalytics', [])
 
-.config(['$mrsappgoogleanalytics', function (config) {
+.config(['$mrsappgoogleanalyticsConfig', function (config) {
 	'use strict';
     
     var defaultConfig = {
@@ -26,8 +26,10 @@ angular.module('MRS.App.GoogleAnalytics', [])
 		enhancedLinkAttribution: false,
 		ignoreFirstPageLoad: true,
 		scriptPath: ""
-    };
+    },
+		mergedConfig;
 	
 	// merge config with default
-    angular.extend(config, defaultConfig, config);
+	mergedConfig = angular.extend({}, defaultConfig, config);
+    angular.extend(config, mergedConfig);
 }]);
